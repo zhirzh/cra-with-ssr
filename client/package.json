@@ -3,15 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run lib",
+    "lib": "rm -rf lib/ && NODE_ENV=production babel src/ -d lib/ && npm run lib:esm",
+    "lib:esm": "find lib/ -type f -name *.js -exec sed -i'' -e 's|@babel/runtime/helpers/esm|@babel/runtime/helpers|g' {} +",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "babel": {
+    "plugins": [
+      "@babel/plugin-transform-modules-commonjs"
+    ],
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
