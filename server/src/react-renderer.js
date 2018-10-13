@@ -5,10 +5,10 @@ var React = require('react');
 var { renderToString } = require('react-dom/server');
 
 var { BUILD_DIR } = require('./paths');
-var App = require('../client/src/App');
+var App = require('../../client/src/App');
 
 function reactRenderer(req, res) {
-  var app = renderToString(React.createElement(App));
+  var app = renderToString(<App />);
 
   var html = fs
     .readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8')
