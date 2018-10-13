@@ -5,7 +5,7 @@ var React = require('react');
 var { renderToString } = require('react-dom/server');
 
 var { BUILD_DIR } = require('./paths');
-var App = require('../../client/src/App');
+var App = require('../../client/lib/App').default;
 
 function reactRenderer(req, res) {
   var app = renderToString(<App />);
