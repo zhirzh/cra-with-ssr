@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "babel-plugin-transform-assets": "^1.0.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4"
@@ -19,7 +20,17 @@
   },
   "babel": {
     "plugins": [
-      "@babel/plugin-transform-modules-commonjs"
+      "@babel/plugin-transform-modules-commonjs",
+      [
+        "transform-assets",
+        {
+          "extensions": [
+            "css",
+            "svg"
+          ],
+          "name": "static/media/[name].[hash:8].[ext]"
+        }
+      ]
     ],
     "presets": [
       "react-app"
