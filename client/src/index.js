@@ -7,8 +7,11 @@ import configureStore from './modules/store';
 import loggerMiddleware from './modules/logger-middleware';
 import * as serviceWorker from './serviceWorker';
 
+const state = window.__INITIAL_STATE__;
+
 const store = configureStore({
   middlewares: [loggerMiddleware],
+  state,
 });
 
 ReactDOM.render(

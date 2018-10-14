@@ -34,7 +34,11 @@ function reactRenderer(req, res) {
 
   var html = fs
     .readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8')
-    .replace('__ROOT__', app);
+    .replace('__ROOT__', app)
+    .replace(
+      '__REDUX__',
+      JSON.stringify(store.getState())
+    );
 
   res.send(html);
 }
