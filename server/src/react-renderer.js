@@ -8,9 +8,23 @@ var { Provider } = require('react-redux');
 var { BUILD_DIR } = require('./paths');
 var App = require('../../client/lib/App').default;
 var configureStore = require('../../client/lib/modules/store').default;
+var { addTodo } = require('../../client/lib/logic/todos');
 
 function reactRenderer(req, res) {
-  var store = configureStore();
+  var state = {
+    todos: [
+      {
+        id: 0,
+        task: 'task from server',
+      },
+    ],
+  }
+
+  var store = configureStore({
+    state,
+  });
+
+  store.dispatch(addTodo('also from server'));
 
   var app = renderToString(
     <Provider store={store}>
