@@ -1,28 +1,73 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addTodo, updateTodo, removeTodo } from './logic/todos';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  state = {
+    newTask: '',
+  };
+
+  addTodo = () => {
+    this.props.addTodo(this.state.newTask);
+    this.setState({
+      newTask: '',
+    });
+  };
+
+  updateNewTask = e => {
+    this.setState({
+      newTask: e.currentTarget.value,
+    });
+  };
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            CRA + SSR
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
         </header>
+
+        <div>
+          <input
+            type="text"
+            value={this.state.newTask}
+            onChange={this.updateNewTask}
+          />
+
+          <button
+            disabled={this.state.newTask.length === 0}
+            onClick={this.addTodo}
+          >
+            +
+          </button>
+        </div>
+
+        <ul>
+          <ol>
+            {this.props.todos.map(todo => (
+              <li key={todo.id}>{todo.task}</li>
+            ))}
+          </ol>
+        </ul>
       </div>
     );
   }
 }
 
-export default App;
+export default connect(
+  state => ({
+    todos: state.todos,
+  }),
+
+  {
+    addTodo,
+    updateTodo,
+    removeTodo,
+  }
+)(App);
