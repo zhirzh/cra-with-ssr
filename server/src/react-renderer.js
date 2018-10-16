@@ -4,13 +4,31 @@ var path = require('path');
 var React = require('react');
 var { renderToString } = require('react-dom/server');
 var { Provider } = require('react-redux');
+var { matchPath, StaticRouter } = require('react-router');
 
 var { BUILD_DIR } = require('./paths');
 var App = require('../../client/lib/App').default;
 var configureStore = require('../../client/lib/modules/store').default;
 var { addTodo } = require('../../client/lib/logic/todos');
 
-function reactRenderer(req, res) {
+var routes = ['/'];
+
+function reactRenderer(req, res, next) {
+  var match = routes.find(route => matchPath(req.path, {
+    path: route,
+    exact: true,
+  }));
+
+  // bail
+  if (!match) {
+    next();
+
+    return;
+  }
+
+  var location = req.url;
+  var context = {};
+
   var state = {
     todos: [
       {
@@ -28,7 +46,9 @@ function reactRenderer(req, res) {
 
   var app = renderToString(
     <Provider store={store}>
-      <App />
+      <StaticRouter location={location} context={context}>
+        <App />
+      </StaticRouter>
     </Provider>
   );
 

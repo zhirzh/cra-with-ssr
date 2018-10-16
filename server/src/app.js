@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.get('/', reactRenderer);
+app.use(reactRenderer);
 
 app.use(express.static(BUILD_DIR));
 app.use(express.static(PUBLIC_DIR));
