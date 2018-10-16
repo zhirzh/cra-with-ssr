@@ -11,7 +11,20 @@ var App = require('../../client/lib/App').default;
 var configureStore = require('../../client/lib/modules/store').default;
 var { addTodo } = require('../../client/lib/logic/todos');
 
-var routes = ['/'];
+var routes = [
+  '/',
+
+  '/para/:number_regex(\\d+)',
+  '/para/:text_regex([a-zA-Z]+)',
+
+  '/para/:any',
+  '/para/:any_regex(.*)',
+  '/para/(.*)',
+  '/para/*',
+  '/para/:any_optional?',
+
+  '/para',
+];
 
 function reactRenderer(req, res, next) {
   var match = routes.find(route => matchPath(req.path, {
