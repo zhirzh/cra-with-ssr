@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Loadable from 'react-loadable';
 import Home from './Home';
 import ParaPage from './ParaPage';
 
@@ -9,6 +10,11 @@ const NoMatch = () => (
     Page Not Found
   </div>
 );
+
+const DynaPageAsync = Loadable({
+  loading: () => <h1>Loading...</h1>,
+  loader: () => import(/* webpackChunkName: "DynaPage" */  './DynaPage'),
+});
 
 class App extends Component {
   render() {
@@ -24,6 +30,8 @@ class App extends Component {
         <Route path="/para/*" component={ParaPage} />
         <Route path="/para/:any_optional?" component={ParaPage} />
         <Route path="/para" exact component={ParaPage} />
+
+        <Route path="/dyna" component={DynaPageAsync} />
 
         <Route render={NoMatch} />
       </Switch>
