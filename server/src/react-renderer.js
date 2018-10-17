@@ -10,6 +10,7 @@ var { BUILD_DIR } = require('./paths');
 var App = require('../../client/lib/App').default;
 var configureStore = require('../../client/lib/modules/store').default;
 var { addTodo } = require('../../client/lib/logic/todos');
+var Lodable = require('../../client/node_modules/react-loadable');
 
 var routes = [
   '/',
@@ -24,6 +25,8 @@ var routes = [
   '/para/:any_optional?',
 
   '/para',
+
+  '/dyna',
 ];
 
 function reactRenderer(req, res, next) {
@@ -57,23 +60,25 @@ function reactRenderer(req, res, next) {
 
   store.dispatch(addTodo('also from server'));
 
-  var app = renderToString(
-    <Provider store={store}>
-      <StaticRouter location={location} context={context}>
-        <App />
-      </StaticRouter>
-    </Provider>
-  );
-
-  var html = fs
-    .readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8')
-    .replace('__ROOT__', app)
-    .replace(
-      '__REDUX__',
-      JSON.stringify(store.getState())
+  Lodable.preloadAll().then(() => {
+    var app = renderToString(
+      <Provider store={store}>
+        <StaticRouter location={location} context={context}>
+          <App />
+        </StaticRouter>
+      </Provider>
     );
 
-  res.send(html);
+    var html = fs
+      .readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8')
+      .replace('__ROOT__', app)
+      .replace(
+        '__REDUX__',
+        JSON.stringify(store.getState())
+      );
+
+    res.send(html);
+  });
 }
 
 module.exports = reactRenderer;

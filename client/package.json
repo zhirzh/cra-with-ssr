@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-plugin-transform-assets": "^1.0.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -34,7 +35,8 @@
           ],
           "name": "static/media/[name].[hash:8].[ext]"
         }
-      ]
+      ],
+      "dynamic-import-node"
     ],
     "presets": [
       "react-app"
