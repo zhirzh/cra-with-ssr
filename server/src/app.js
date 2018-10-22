@@ -1,10 +1,10 @@
-var createError = require('http-errors');
-var express = require('express');
-var logger = require('morgan');
-var { BUILD_DIR, PUBLIC_DIR } = require('./paths');
-var reactRenderer = require('./react-renderer');
+import createError from 'http-errors';
+import express from 'express';
+import logger from 'morgan';
+import { BUILD_DIR, PUBLIC_DIR } from './paths';
+import reactRenderer from './react-renderer';
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 
@@ -28,7 +28,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-var port = process.env.PORT || '3000';
+const port = process.env.PORT || '3000';
 
 app.listen(port, () => {
   console.log('Server listening on:', port);

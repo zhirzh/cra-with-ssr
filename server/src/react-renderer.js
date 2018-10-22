@@ -1,18 +1,18 @@
-var fs = require('fs');
-var path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-var React = require('react');
-var { renderToString } = require('react-dom/server');
-var { Provider } = require('react-redux');
-var { matchPath, StaticRouter } = require('react-router');
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { matchPath, StaticRouter } from 'react-router';
 
-var { BUILD_DIR } = require('./paths');
-var App = require('../../client/lib/App').default;
-var configureStore = require('../../client/lib/modules/store').default;
-var { addTodo } = require('../../client/lib/logic/todos');
-var Lodable = require('../../client/node_modules/react-loadable');
+import { BUILD_DIR } from './paths';
+import App from '../../client/lib/App';
+import configureStore from '../../client/lib/modules/store';
+import { addTodo } from '../../client/lib/logic/todos';
+import Lodable from '../../client/node_modules/react-loadable';
 
-var routes = [
+const routes = [
   '/',
 
   '/para/:number_regex(\\d+)',
@@ -30,7 +30,7 @@ var routes = [
 ];
 
 function reactRenderer(req, res, next) {
-  var match = routes.find(route => matchPath(req.path, {
+  const match = routes.find(route => matchPath(req.path, {
     path: route,
     exact: true,
   }));
@@ -42,10 +42,10 @@ function reactRenderer(req, res, next) {
     return;
   }
 
-  var location = req.url;
-  var context = {};
+  const location = req.url;
+  const context = {};
 
-  var state = {
+  const state = {
     todos: [
       {
         id: 0,
@@ -54,14 +54,14 @@ function reactRenderer(req, res, next) {
     ],
   }
 
-  var store = configureStore({
+  const store = configureStore({
     state,
   });
 
   store.dispatch(addTodo('also from server'));
 
   Lodable.preloadAll().then(() => {
-    var app = renderToString(
+    const app = renderToString(
       <Provider store={store}>
         <StaticRouter location={location} context={context}>
           <App />
@@ -69,7 +69,7 @@ function reactRenderer(req, res, next) {
       </Provider>
     );
 
-    var html = fs
+    const html = fs
       .readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8')
       .replace('__ROOT__', app)
       .replace(
@@ -81,4 +81,4 @@ function reactRenderer(req, res, next) {
   });
 }
 
-module.exports = reactRenderer;
+export default reactRenderer;

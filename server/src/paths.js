@@ -1,9 +1,9 @@
-var path = require('path');
+import path from 'path';
 
-var BUILD_DIR = path.join(__dirname, '..', '..', 'client', 'build');
-var PUBLIC_DIR = path.join(__dirname, '..', 'public');
+const BUILD_DIR = path.join(__dirname, '..', '..', 'client', 'build');
+const PUBLIC_DIR = path.join(__dirname, '..', 'public');
 
-module.exports = {
+export {
   BUILD_DIR,
   PUBLIC_DIR,
 };
