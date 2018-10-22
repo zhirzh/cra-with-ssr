@@ -1,6 +1,5 @@
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
 var logger = require('morgan');
 var { BUILD_DIR, PUBLIC_DIR } = require('./paths');
 var reactRenderer = require('./react-renderer');
@@ -28,4 +27,9 @@ app.use(function(err, req, res, next) {
   throw err;
 });
 
-module.exports = app;
+
+var port = process.env.PORT || '3000';
+
+app.listen(port, () => {
+  console.log('Server listening on:', port);
+});

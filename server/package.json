@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "lib": "rm -rf lib/ && babel src/ -d lib/",
-    "start": "npm run lib && node ./bin/www"
+    "start": "npm run lib && node ./lib/app.js"
   },
   "dependencies": {
     "@babel/cli": "^7.1.2",
